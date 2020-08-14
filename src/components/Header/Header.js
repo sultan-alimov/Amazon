@@ -1,38 +1,28 @@
-import React from 'react'
-import img from '../images/amazon_PNG11.png'
-import './Header.css'
-import { Link } from 'react-router-dom'
-import SearchIcon from '@material-ui/icons/Search'
+import React from 'react';
+import img from '../../static/images/amazon_PNG11.png';
+import './Header.sass';
+import {Link} from 'react-router-dom';
+import SearchIcon from '@material-ui/icons/Search';
 import ShoppingCartOutlinedIcon from '@material-ui/icons/ShoppingCartOutlined';
-import { useStateValue } from '../StateProvider';
-import { auth } from '../Firebase'
+import {useStateValue} from '../../StateProvider';
+import {auth} from '../../firebase';
 
-const Header = () => {
-    const [{ basket, user }] = useStateValue();
+export default function Header() {
+    const [{basket, user}] = useStateValue();
     const login = () => {
-        if(user){
+        if (user) {
             auth.signOut();
         }
-    }
-
+    };
     return (
-        <nav className="header">
+        <nav className='header'>
             <Link to='/'>
-                <img
-                    className='header__logo'
-                    src={img}
-                    alt='logo'
-                /> 
+                <img className='header__logo' src={img} alt='logo' />
             </Link>
-
             <div className='header__search'>
-                <input 
-                    type='text'
-                    className='header__searchInput'
-                />
-            <SearchIcon className='header__searchIcon' />
+                <input type='text' className='header__searchInput' />
+                <SearchIcon className='header__searchIcon' />
             </div>
-
             <div className='header__nav'>
                 <Link to={!user && '/login'} className='header__link'>
                     <div onClick={login} className='header__option'>
@@ -52,18 +42,15 @@ const Header = () => {
                         <span className='header__optionLineTwo'>Prime</span>
                     </div>
                 </Link>
-                {user && 
+                {user && (
                     <Link to='/checkout' className='header__link'>
                         <div className='header__optionBasket'>
                             <ShoppingCartOutlinedIcon />
-                            <span className='header__optionLineOne header__basketCount'>{ basket?.length }</span>
+                            <span className='header__optionLineOne header__basketCount'>{basket?.length}</span>
                         </div>
                     </Link>
-                }
+                )}
             </div>
-                       
         </nav>
-    )
+    );
 }
-
-export default Header
